@@ -1,0 +1,260 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  :root {
+    --button-color: rgba(255, 255, 255, 0.7);
+    --button-color-hover: rgb(184, 184, 184);
+    --button-color-muted: rgba(255, 255, 255, 0.4);
+    --glow-color: #00000000;
+    --glow-color-hover: #ffffff;
+    --background-color: #000000;
+  }
+  
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--background-color);
+    color: #ffffff;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+  
+  .background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+  }
+  
+  .background-image {
+    width: 100%;
+    height: 100%;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+  }
+  
+  .background-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Changed from 'fill' to 'cover' to maintain aspect ratio and eliminate black bars */
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .entry-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.8s ease, backdrop-filter 0.8s ease;
+  }
+  
+  .entry-overlay.hidden {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    pointer-events: none;
+  }
+  
+  .entry-content {
+    text-align: center;
+    animation: floatAnimation 3s ease-in-out infinite;
+  }
+  
+  .entry-title {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 300;
+    font-size: 2rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .entry-cursor {
+    font-size: 2rem;
+    animation: blinkAnimation 2s infinite;
+    color: #ffffff;
+  }
+  
+  .main-content {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 4rem;
+  }
+  
+  .audio-control {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 0.8rem;
+    color: var(--button-color);
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.3s ease;
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 0 10px rgba(255,255,255,0.1), 0 0 20px rgba(255,255,255,0.05), inset 0 0 15px rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+  }
+  
+  .audio-control:hover {
+    color: var(--button-color-hover);
+    transform: translateY(-2px) scale(1.1);
+    box-shadow: 0 0 20px var(--glow-color-hover), 0 0 40px rgba(0,212,255,0.3), 0 0 60px rgba(0,212,255,0.1), inset 0 0 20px rgba(255,255,255,0.1);
+    border-color: rgba(0,212,255,0.3);
+  }
+  
+  .audio-control:active {
+    transform: translateY(0) scale(1.05);
+    box-shadow: 0 0 15px var(--glow-color-hover), 0 0 30px rgba(0,212,255,0.4), inset 0 0 15px rgba(255,255,255,0.1);
+  }
+  
+  .audio-icon {
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
+  }
+  
+  .audio-control.muted {
+    color: var(--button-color-muted);
+    box-shadow: 0 0 8px rgba(255,255,255,0.05), inset 0 0 10px rgba(255,255,255,0.02);
+  }
+  
+  .audio-control.muted:hover {
+    box-shadow: 0 0 15px rgba(255,100,100,0.3), 0 0 30px rgba(255,100,100,0.1), inset 0 0 15px rgba(255,255,255,0.05);
+    border-color: rgba(255,100,100,0.2);
+  }
+  
+  .audio-control:hover .audio-icon {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 10px var(--glow-color-hover));
+  }
+  
+  .social-container {
+    position: fixed;
+    bottom: 4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    z-index: 100;
+  }
+  
+  .social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem;
+    color: var(--button-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background: transparent;
+  }
+  
+  .social-icon i {
+    font-size: 1.8rem;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2)) drop-shadow(0 0 15px rgba(255,255,255,0.1));
+  }
+  
+  .social-icon:hover {
+    color: var(--button-color-hover);
+    transform: translateY(-2px) scale(1.1);
+  }
+  
+  .social-icon:hover i {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 10px var(--glow-color-hover)) drop-shadow(0 0 20px var(--glow-color-hover)) drop-shadow(0 0 30px rgba(0,212,255,0.4)) drop-shadow(0 0 40px rgba(0,212,255,0.2));
+  }
+  
+  .social-icon:active {
+    transform: translateY(0) scale(1.05);
+  }
+  
+  .social-icon:active i {
+    filter: drop-shadow(0 0 8px var(--glow-color-hover)) drop-shadow(0 0 16px var(--glow-color-hover)) drop-shadow(0 0 25px rgba(0,212,255,0.5));
+  }
+  
+  @keyframes floatAnimation {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes blinkAnimation {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @media (max-width: 768px) {
+    .audio-control { top: 1rem; left: 1rem; }
+    .audio-icon { font-size: 1.2rem; }
+    .social-container { gap: 1.2rem; }
+    .social-icon i { font-size: 1.6rem; }
+    .main-content { padding-bottom: 3rem; }
+  }
+  
+  @media (max-width: 480px) {
+    .entry-title { font-size: 2rem; }
+    .social-container { gap: 1rem; }
+    .social-icon i { font-size: 1.4rem; }
+    .main-content { padding-bottom: 2.5rem; }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  .audio-control:focus,
+  .social-icon:focus {
+    outline: 2px solid rgba(255,255,255,0.8);
+    outline-offset: 2px;
+  }
+  
+  @media (prefers-contrast: high) {
+    .bio-content {
+      background: rgba(0,0,0,0.8);
+      border: 2px solid #ffffff;
+    }
+    .audio-control {
+      background: rgba(0,0,0,0.8);
+      border: 2px solid #ffffff;
+    }
+  }
